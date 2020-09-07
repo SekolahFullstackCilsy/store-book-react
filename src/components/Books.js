@@ -8,18 +8,30 @@ export default class Book extends Component {
     book: [],
   };
 
-  async componentDidMount() {
+  refresh = async () => {
     const books = await axios.get(`${HOST}/book`);
-    this.setState({
-      book: books.data,
-    });
+    if (books) {
+      this.setState({
+        book: books.data || [],
+      });
+    }
+  };
+
+  async componentDidMount() {
+    return this.refresh();
   }
 
   render() {
     const renderData =
       this.state.book.length > 0 &&
-      this.state.book.map((book) => <CardBook key={book.id} book={book} />);
+      this.state.book.map((book) => (
+        <CardBook key={book.id} book={book} refresh={this.refresh} />
+      ));
 
-    return <div>{renderData}</div>;
+    return (
+      <div className="container">
+        <div className="row">{renderData}</div>
+      </div>
+    );
   }
 }

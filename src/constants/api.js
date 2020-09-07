@@ -1,1 +1,1 @@
-export const HOST = "localhost:4000";
+export const HOST = "http://58639fca4c47.ngrok.io";
